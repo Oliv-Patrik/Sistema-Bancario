@@ -1,11 +1,28 @@
 # Dicionário para armazenar os usuários
 usuarios = {}
 
+# Dicionário para armazenar as contas correntes
+contas_correntes = []
+
 # Função para registrar um novo usuário
 def registrar_usuario():
     nome = input("Informe seu nome: ")
+    cpf = input("Informe seu CPF: ")
     senha = input("Informe uma senha: ")
-    usuarios[nome] = {"senha": senha, "saldo": 0, "extrato": "", "limite": 500, "numero_saques": 0, "LIMITE_SAQUES": 3}
+
+    if cpf in [u["cpf"] for u in usuarios.values()]:
+        print("CPF já cadastrado!")
+        return
+
+    usuarios[nome] = {"cpf": cpf, "senha": senha, "saldo": 0, "extrato": "", "limite": 500, "numero_saques": 0, "LIMITE_SAQUES": 3}
+    criar_conta_corrente(nome)
+
+# Função para criar uma conta corrente
+def criar_conta_corrente(nome):
+    numero_conta = len(contas_correntes) + 1
+    agencia = "0001"
+    contas_correntes.append({"agencia": agencia, "numero_conta": numero_conta, "usuario": nome})
+    print(f"Conta corrente criada com sucesso! Número da conta: {agencia}-{numero_conta}")
 
 # Função para realizar login
 def login():
